@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Insurance Power BI Report</title>
+
+  <!-- Bootstrap CSS (optional, for styling purposes) -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/new_style.css" rel="stylesheet">
+  
+  <!-- Font Awesome (optional, for icons) -->
+  <link rel="stylesheet" href="font/font-awesome/css/font-awesome.css">
+  
+  <style>
+    /* Styles for loading spinner */
+    .spinner {
+      display: none;
+      width: 3rem;
+      height: 3rem;
+      margin: 0 auto;
+      border: 0.25em solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      border-top-color: #007bff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Responsive iframe styles */
+    .iframe-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      overflow: hidden;
+    }
+    
+    .iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Navbar (optional) -->
+  <header class="sticky-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light py-0">
+        <a class="navbar-brand" href="index.html">
+          <img src="img/pinclogo.jpg" alt="Logo" class="logo" style="width: 195px" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <div class="navbar-nav ms-auto py-0">
+            <li class="nav-item py-0 py-lg-3"><a href="aboutus.html" class="nav-link">About us</a></li>
+            <li class="nav-item active-nav py-0 py-lg-3"><a href="contactUs.html" class="nav-link">Contact us</a></li>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Section for Power BI Report -->
+  <section class="container mt-5">
+    <h1>Power BI Report</h1>
+
+    <input type="text" id="reportUrl" class="form-control mb-3 text-dark" placeholder="Enter Power BI Report URL">
+    <div class="iframe-container" id="reportContainer">
+      <button onclick="loadReport()" class="btn btn-primary mt-3">Load Report</button>
+
+      <div class="spinner" id="loadingSpinner"></div>
+    </div>
+  </section>
+
+  <!-- JavaScript Libraries (jQuery, Bootstrap) -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JavaScript to Load Power BI Report -->
+  <script>
+    function loadReport() {
+      const embedUrl = document.getElementById("reportUrl").value || "https://app.powerbi.com/reportEmbed?reportId=421b3d68-7c16-4a5a-8d92-88f51a91d489&autoAuth=true&ctid=98e1202c-21fb-4bec-a8dc-e302fa3b4deb";
+      const reportContainer = document.getElementById("reportContainer");
+      const loadingSpinner = document.getElementById("loadingSpinner");
+
+      // Show loading spinner
+      loadingSpinner.style.display = "block";
+      reportContainer.innerHTML = ""; // Clear previous report
+
+      const iframe = document.createElement("iframe");
+      iframe.src = embedUrl;
+
+      // Handle loading event
+      iframe.onload = function() {
+        loadingSpinner.style.display = "none"; // Hide spinner once loaded
+      };
+
+      iframe.onerror = function() {
+        loadingSpinner.style.display = "none"; // Hide spinner on error
+        alert("Failed to load the report. Please check the URL.");
+      };
+
+      reportContainer.appendChild(iframe);
+    }
+  </script>
+</body>
+</html>
